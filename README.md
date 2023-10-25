@@ -18,3 +18,6 @@ My Debian config [i3wm + bumblebee-status + Rofi + Alacritty]
 - **Touchpad Convenience:** Tap-to-click functionality enabled using xinput.
 - **C++ Automation:** Script for C++ project execution; CMake needed;
 - **Low Battery Prompt:** Battery level warning at 35%.
+
+# Desktop
+![Desktop](https://github.com/vivekkdagar/dotfiles/blob/main/screenshots/desktop.png)
