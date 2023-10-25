@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Check for the provided C++ source and header files
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <cpp_file1> [cpp_file2] [cpp_file3] ... [header_file1] [header_file2] ..."
+    exit 1
+fi
+
+# Create CMakeLists.txt
+echo "cmake_minimum_required(VERSION 3.0)" > CMakeLists.txt
+echo "project(MyCPlusPlusProject)" >> CMakeLists.txt
+
+# Create lists for source files and header files
+source_files=()
+header_files=()
+
+# Separate the provided files into source and header files
+for file in "$@"; do
+    file_base="$(basename -- "$file")"
+    file_extension="${file_base##*.}"
+
+    # Check if it's a C++ source file
+    if [ "$file_extension" == "cpp" ]; then
+        source_files+=("$file")
+    fi
+
+    # Check if it's a header file
+    if [ "$file_extension" == "h" ]; then
+        header_files+=("$file")
+    fi
+done
+
+# Add the source files to CMakeLists.txt
+if [ ${#source_files[@]} -gt 0 ]; then
+    echo "add_executable(MyCPlusPlusExecutable" >> CMakeLists.txt
+    for cpp_file in "${source_files[@]}"; do
+        cpp_file_base="$(basename -- "$cpp_file")"
+        cpp_file_base="${cpp_file_base%.cpp}"  # Remove the .cpp extension
+        echo "    $cpp_file" >> CMakeLists.txt
+    done
+    echo ")" >> CMakeLists.txt
+fi
+
+# Create a build directory
+mkdir -p build
+cd build
+
+# Run CMake to generate build files
+cmake ..
+
+# Compile the project using make
+make
+
+# Check if compilation was successful
+if [ $? -eq 0 ]; then
+    # Execute the first compiled program
+    if [ ${#source_files[@]} -gt 0 ]; then
+        first_cpp_file="${source_files[0]##*/}"  # Get the base name of the first C++ file
+        first_cpp_file="${first_cpp_file%.cpp}"  # Remove the .cpp extension
+        echo "Compilation successful. Running the program: $first_cpp_file"
+        ./"MyCPlusPlusExecutable"
+    else
+        echo "No C++ source files to execute."
+    fi
+else
+    echo "Compilation failed."
+fi
