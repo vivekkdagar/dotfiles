@@ -19,5 +19,11 @@ My Debian config [i3wm + bumblebee-status + Rofi + Alacritty]
 - **C++ Automation:** Script for C++ project execution; CMake needed;
 - **Low Battery Prompt:** Battery level warning at 35%.
 
+## Gtk theme
+WhiteSur Gtk Theme by Vinceliuice -> https://github.com/vinceliuice/WhiteSur-gtk-theme
+
+## Icon Pack
+Adwaita
+
 # Desktop
 ![Desktop](https://github.com/vivekkdagar/dotfiles/blob/main/screenshots/desktop.png)
